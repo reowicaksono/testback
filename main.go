@@ -1,11 +1,17 @@
 package main
 
 import (
+	"testback/config"
+	"testback/database"
+
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	router := gin.Default()
+	config.LoadEnv()
+
+	database.InitDB()
 
 	router.GET("/", func(ctx *gin.Context) {
 		ctx.JSON(200, gin.H{
@@ -13,5 +19,5 @@ func main() {
 		})
 	})
 
-	router.Run(":3000")
+	router.Run(":" + config.GetEnv("APP_PORT", "3000"))
 }
